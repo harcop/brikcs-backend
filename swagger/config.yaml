@@ -1,0 +1,95 @@
+security:
+  - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    authorization:
+      in: header
+      name: "Authorization"
+      required: true
+      schema:
+        type: string
+        description: this is the json web token used to verify the user making the action
+  schemas:
+    'create-category':
+      properties:
+        name:
+          type: string
+          required: true
+        mode:
+          type: string
+          required: true
+        status:
+          type: boolean
+          required: true
+    'create-level':
+      properties:
+        categoryId:
+          type: string
+          required: true
+        name:
+          type: string
+          required: true
+        mode:
+          type: string
+          required: true
+        status:
+          type: boolean
+          required: true
+        questionBody:
+          type: string
+          required: true
+        functionName:
+          type: string
+          required: true
+        testCases: 
+          type: array
+          items:
+            type: object
+            properties:
+              input:
+                anyOf:
+                  - type: string
+                  - type: object
+                  - type: array
+                    items: {}
+              expected:
+                anyOf:
+                  - type: string
+                  - type: object
+                  - type: array
+                    items: {}
+    'create-user-level':
+      properties:
+        categoryId:
+          type: string
+          required: true
+        levelId:
+          type: string
+          required: true
+        language:
+          type: string
+          required: true
+        codeBody:
+          type: string
+          required: true
+        queryType:
+          type: string
+          enum: [save, load]
+          required: true
+    'solve-challenge': 
+      properties:
+        levelId:
+          type: string
+          require: true
+        codeBody:
+          type: string
+          require: true
+        language:
+          type: string
+          require: true
+

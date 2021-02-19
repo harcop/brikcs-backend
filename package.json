@@ -1,0 +1,27 @@
+{
+  "name": "bricks",
+  "version": "1.0.0",
+  "description": "learn basics of programming",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest "
+  },
+  "keywords": [
+    "bricks",
+    "programming"
+  ],
+  "author": "Toluwap",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv-json": "^1.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "swagger-jsdoc": "^6.0.5",
+    "swagger-ui-express": "^4.1.6",
+    "syntax-error": "^1.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.20.0"
+  }
+}
