@@ -1,5 +1,6 @@
 const LevelModel = require('../../models/level'); 
 const { db } = require('../../../db');
+const { questions } = require('../../../questions');
 
 module.exports = class Init {
     static createLevel (req, res) {
@@ -18,6 +19,23 @@ module.exports = class Init {
             res.status(200).json({
                 message: 'done',
                 response
+            });
+        })
+        .catch(message => {
+            res.status(404).json({
+                error: true,
+                message
+            });
+        });
+    }
+
+    static loadLevel (req, res) {
+        db.then(() => {
+            return LevelModel.insertMany(questions);
+        })
+        .then(response => {
+            res.status(200).json({
+                message: 'done'
             });
         })
         .catch(message => {

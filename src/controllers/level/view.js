@@ -49,20 +49,28 @@ module.exports = class View {
                 throw 'please provide categoryId';
             }
             const findUserLevel = await UserLevelModel.find({ categoryId,
-                userId }).lean();
+                userId,
+                status: true });
 
             const userLevelIds = findUserLevel.map(level => {
                 return level.levelId;
             });
             const query = {};
-            console.log(userLevelIds, 'donene', findUserLevel);
+            const _scope = {
+                userTaken: []
+            };
             if (userLevelIds.length) {
+                const findTakenLevel = await LevelModel.find({ _id: { $in: userLevelIds } });
+                _scope.userTaken = findTakenLevel.map(level => {
+                    level.status = true;
+                    return level;
+                });
                 query._id = { $ne: userLevelIds }; 
             }
-            const findCategoryLevelWithoutUserLevels = await LevelModel.find(query).lean();
+            const findCategoryLevelWithoutUserLevels = await LevelModel.find(query);
 
             const allLevels = [
-                ...findUserLevel,
+                ..._scope.userTaken,
                 ...findCategoryLevelWithoutUserLevels
             ];
             return allLevels;

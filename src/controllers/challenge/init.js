@@ -6,6 +6,7 @@ const { db } = require('../../../db');
 const LevelModel = require('../../models/level');
 const UserLevelModel = require('../../models/userLevel');
 
+
 module.exports = class Challenge {
 
     static solve (req, res) {
@@ -13,7 +14,7 @@ module.exports = class Challenge {
 
             const { userId } = res.locals;
 
-            const { levelId, codeBody, language } = req.body;
+            const { levelId, functionBody } = req.body;
 
             await UserLevelModel.findOneAndUpdate({ userId,
                 levelId }, { ...req.body });
@@ -25,6 +26,11 @@ module.exports = class Challenge {
             let passes = 0;
         
             const printAttachment = `
+            process.on('uncaughtException', (err, origin) => {
+
+                console.log('only error allowed');
+            });
+
             const logs = [];
         
             function printLog() {
@@ -36,27 +42,29 @@ module.exports = class Challenge {
             }`;
         
             const footer = `\n\n${printAttachment} module.exports = { mainCode: ${codeName}, printer, printLog }`;
+
+            const fullCodeSyntax = functionBody + footer;
+            const fullCodeWithPrinter = replaceConsoleWithPrinter(functionBody) + footer;
         
-            const fullCodeSyntax = codeBody + footer;
-            const fullCodeWithPrinter = replaceConsoleWithPrinter(codeBody) + footer;
-        
+            const root = process.cwd();
+            const rnd = Math.floor(Math.random() * 45 * Math.random() * 98);
+            
+            const fileName = `/coder${userId}${levelId}${rnd}.js`;
+            const _fileNamePathSyntax = `${root}/coder${userId}${levelId}${rnd}.js`;
+    
+            const fileNamePathCodeToPrinter = `${root}/coder-p${userId}${levelId}${rnd}.js`;
+
             try {
-                const root = process.cwd();
-                const fileName = `/coder${userId}${levelId}.js`;
-                const _fileNamePathSyntax = `${root}/coder${userId}${levelId}.js`;
-        
-                const fileNamePathCodeToPrinter = `${root}/coder-p${userId}${levelId}.js`;
-        
                 await fs.writeFile(_fileNamePathSyntax, fullCodeSyntax); // Write to a file to check for syntax;
         
-                await fs.writeFile(fileNamePathCodeToPrinter, fullCodeWithPrinter); // codeBody with changed console to printer
+                await fs.writeFile(fileNamePathCodeToPrinter, fullCodeWithPrinter); // functionBody with changed console to printer
         
                 const syntaxErr = await syntaxError(fileName);
                 if (syntaxErr) {
                     console.log(syntaxErr);
                     fs.unlink(_fileNamePathSyntax);
                     fs.unlink(fileNamePathCodeToPrinter);
-                    return res.status(200).json({
+                    return res.status(404).json({
                         message: 'bad',
                         response: {
                             tests: [],
@@ -68,10 +76,16 @@ module.exports = class Challenge {
         
                 const { mainCode, printer, printLog } = require(fileNamePathCodeToPrinter);
                 let _r = 1;
+
+
+                if (typeof mainCode !== 'function' || mainCode.name !== codeName) {
+                    console.log('function name error');
+                }
+
                 for (const test of tests) {
-                    printer(`Running Test ${_r}`);
+                    printer(`----------Running Test ${_r}----------`);
                     const { input, expected } = test;
-                    const _output = mainCode(input);
+                    const _output = mainCode(...input);
                     if (_output === expected) {
                         test.status = 'pass';
                         test.output = _output;
@@ -89,9 +103,10 @@ module.exports = class Challenge {
                     ...req.body
                 };
                 if (passes === tests.length) {
+                    console.log('done truth');
                     query.status = true;
                 }
-                
+
                 await UserLevelModel.findOneAndUpdate({ userId,
                     levelId }, query);
 
@@ -107,10 +122,16 @@ module.exports = class Challenge {
                 fs.unlink(_fileNamePathSyntax);
                 fs.unlink(fileNamePathCodeToPrinter);
             } catch (err) {
-                console.log(err);
+                fs.unlink(_fileNamePathSyntax);
+                fs.unlink(fileNamePathCodeToPrinter);
+                console.log(err, 'error here');
                 res.status(404).json({
                     message: 'bad',
-                    response: err
+                    response: {
+                        tests: [],
+                        passes: [],
+                        logs: [`${err}`]
+                    }
                 });
             }
 

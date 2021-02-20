@@ -31,20 +31,29 @@ components:
         categoryId:
           type: string
           required: true
-        name:
+        title:
           type: string
           required: true
         mode:
           type: string
-          required: true
-        status:
-          type: boolean
           required: true
         questionBody:
           type: string
           required: true
         functionName:
           type: string
+          required: true
+        hints:
+          type: array
+          items:
+          example:
+            - loop
+          required: true
+        constrains:
+          type: array
+          items:
+          example:
+            - n > 10
           required: true
         testCases: 
           type: array
@@ -74,7 +83,7 @@ components:
         language:
           type: string
           required: true
-        codeBody:
+        functionBody:
           type: string
           required: true
         queryType:
@@ -86,7 +95,7 @@ components:
         levelId:
           type: string
           require: true
-        codeBody:
+        functionBody:
           type: string
           require: true
         language:

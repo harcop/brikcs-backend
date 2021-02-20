@@ -6,7 +6,7 @@ const _schema = new Schema({
         type: ObjectId,
         lowercase: true,
     },
-    name: {
+    title: {
         type: String,
         lowercase: true,
     },
@@ -14,6 +14,10 @@ const _schema = new Schema({
         type: String,
         lowercase: true,
         enum: ['easy', 'medium', 'hard']
+    },
+    rate: {
+        type: Number,
+        default: 1
     },
     status: {
         type: Boolean,
@@ -27,9 +31,21 @@ const _schema = new Schema({
         type: String,
         required: [true, 'please provide function name'] // helloWorld()
     },
+    functionBody: {
+        type: String,
+        required: [true, 'please provide function body'] // helloWorld() {}
+    },
+    hints: [{
+        type: String
+    }],
+    constrains: [{
+        type: String
+    }],
     testCases: [{
         type: new Schema({
-            input: Mixed,
+            input: [{
+                type: Mixed
+            }],
             expected: Mixed
         })
     }]
@@ -50,7 +66,7 @@ _schema.methods.toJSON = function () {
     delete obj.createdAt;
     delete obj.updatedAt;
     // delete obj.functionName;
-    delete obj.testCases;
+    // delete obj.testCases;
     return obj;
 };
 

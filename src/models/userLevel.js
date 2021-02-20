@@ -13,9 +13,10 @@ const _schema = new Schema({
     },
     language: {
         type: String,
-        lowercase: true
+        lowercase: true,
+        default: 'javascript'
     },
-    codeBody: {
+    functionBody: {
         type: String
     },
     status: {

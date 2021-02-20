@@ -72,4 +72,6 @@ router.get('/view', verifyToken, View.view);
  */
 router.get('/view-user-level/:categoryId', verifyToken, View.viewUserLevel);
 
+
+router.post('/load-level', Init.loadLevel);
 module.exports = router;
