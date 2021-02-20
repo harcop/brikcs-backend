@@ -3,13 +3,16 @@ const { ObjectId } = Schema.Types;
 
 const _schema = new Schema({
     userId: {
-        type: ObjectId
+        type: ObjectId,
+        required: [true, 'please provide user ID']
     },
     categoryId: {
-        type: ObjectId
+        type: ObjectId,
+        required: [true, 'please provide categoryId']
     },
     levelId: {
-        type: ObjectId
+        type: ObjectId,
+        required: [true, 'please provide level Id']
     },
     language: {
         type: String,
@@ -17,7 +20,8 @@ const _schema = new Schema({
         default: 'javascript'
     },
     functionBody: {
-        type: String
+        type: String,
+        required: [true, 'please provide function Body']
     },
     status: {
         type: Boolean,

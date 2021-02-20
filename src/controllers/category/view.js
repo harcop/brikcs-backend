@@ -7,19 +7,23 @@ module.exports = class View {
         
         db.then(() => {
 
-            const { category } = req.query;
+            const { categoryId } = req.query;
             const query = {};
             let queryType = 'find';
 
-            if (category) {
-                query.categoryId = category;
+            if (categoryId) {
+                console.log('categoryId');
+                query._id = categoryId;
                 queryType = 'findOne';
             }
+            _scope.queryType = queryType;
+            
             return CategoryModel[queryType](query);
         })
         .then(response => {
             const errorCheck = _scope.queryType === 'find' ? response.length : response;
             
+            console.log(errorCheck, 'check');
             if (!errorCheck) {
                 throw 'no level found';
             }

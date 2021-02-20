@@ -4,6 +4,7 @@ const _schema = new Schema({
     email: {
         type: String,
         lowercase: true,
+        required: [true, 'please provide email']
     }
 }, {
     toJSON: {

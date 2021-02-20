@@ -115,7 +115,8 @@ module.exports = class Challenge {
                     response: {
                         tests,
                         passes,
-                        logs
+                        logs,
+                        status: true
                     }
                 });
 

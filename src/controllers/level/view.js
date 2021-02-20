@@ -51,7 +51,6 @@ module.exports = class View {
             const findUserLevel = await UserLevelModel.find({ categoryId,
                 userId,
                 status: true });
-
             const userLevelIds = findUserLevel.map(level => {
                 return level.levelId;
             });
@@ -60,20 +59,27 @@ module.exports = class View {
                 userTaken: []
             };
             if (userLevelIds.length) {
-                const findTakenLevel = await LevelModel.find({ _id: { $in: userLevelIds } });
-                _scope.userTaken = findTakenLevel.map(level => {
+                const findTakenLevelIds = await LevelModel.find({ _id: { $in: userLevelIds } })
+                .select(['-createdAt', '-updatedAt'])
+                .lean();
+                
+                _scope.userTaken = findTakenLevelIds.map(level => {
+                    level.id = level._id;
+                    delete level._id;
                     level.status = true;
                     return level;
                 });
-                query._id = { $ne: userLevelIds }; 
+                query._id = { $nin: userLevelIds }; 
             }
+
             const findCategoryLevelWithoutUserLevels = await LevelModel.find(query);
 
             const allLevels = [
                 ..._scope.userTaken,
                 ...findCategoryLevelWithoutUserLevels
             ];
-            return allLevels;
+            
+            return allLevels.sort((_a, _b) => _a.rate - _b.rate);
         })
         .then(response => {
             if (!response.length) {

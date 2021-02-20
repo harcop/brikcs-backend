@@ -6,7 +6,7 @@ module.exports = class Init {
     static loadUserLevel (req, res) {
         db.then(async () => {
             const { userId } = res.locals;
-            const { levelId, functionBody, queryType } = req.body;
+            const { categoryId, levelId, functionBody, queryType } = req.body;
             const query = { 
                 userId,
                 levelId
@@ -22,6 +22,7 @@ module.exports = class Init {
                 const _UserLevel = new UserLevelModel({
                     ...req.body,
                     userId,
+                    categoryId,
                     functionBody: newFunctionBody
                 });
                 return _UserLevel.save({ validateBeforeSave: false }); 

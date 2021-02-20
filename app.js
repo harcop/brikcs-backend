@@ -5,10 +5,22 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const express = require('express');
 const app = express();
-
-
 const cors = require('cors');
-app.use(cors());
+
+const whitelist = ['https://brikcs.netlify.app'];
+
+const corsOptions = {
+    origin (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            return callback(null, true);
+        } 
+        return callback(new Error('Not allowed by CORS'));
+    }
+};
+
+
+// app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const router = require('./src/routes');

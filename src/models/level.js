@@ -5,10 +5,12 @@ const _schema = new Schema({
     categoryId: {
         type: ObjectId,
         lowercase: true,
+        required: [true, 'please provide categoryId']
     },
     title: {
         type: String,
         lowercase: true,
+        required: [true, 'please provide title']
     },
     mode: {
         type: String,

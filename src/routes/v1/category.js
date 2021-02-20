@@ -30,11 +30,11 @@ router.post('/create-category', Init.createCategory);
 
 /**
  * @swagger
- * /category/view?category:
+ * /category/view?categoryId:
  *  get:
  *      parameters:
  *          - in: query
- *            name: category
+ *            name: categoryId
  *      security:
  *          - BearerAuth: []
  *      summary: api to view category in to the system
