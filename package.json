@@ -18,6 +18,7 @@
     "dotenv-json": "^1.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.17",
     "swagger-jsdoc": "^6.0.5",
     "swagger-ui-express": "^4.1.6",
     "syntax-error": "^1.4.0"
