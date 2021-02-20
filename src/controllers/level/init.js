@@ -1,6 +1,6 @@
 const LevelModel = require('../../models/level'); 
 const { db } = require('../../../db');
-const { questions } = require('../../../questions');
+// const { questions } = require('../../../questions');
 
 module.exports = class Init {
     static createLevel (req, res) {
@@ -31,7 +31,7 @@ module.exports = class Init {
 
     static loadLevel (req, res) {
         db.then(() => {
-            return LevelModel.insertMany(questions);
+            // return LevelModel.insertMany(questions);
         })
         .then(() => {
             res.status(200).json({
