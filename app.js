@@ -10,10 +10,10 @@ const cors = require('cors');
 const whitelist = ['https://brikcs.netlify.app'];
 
 const corsOptions = {
-    origin (origin, callback) {
-        if (whitelist.includes(origin)) {
+    origin: (origin, callback) => {
+        if (whitelist.indexOf(origin) !== -1) {
             return callback(null, true);
-        } 
+        }
         return callback(new Error('Not allowed by CORS'));
     }
 };
