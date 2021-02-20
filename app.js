@@ -10,11 +10,14 @@ const cors = require('cors');
 const whitelist = ['https://brikcs.netlify.app'];
 
 const corsOptions = {
-    origin: (origin, callback) => {
+    // eslint-disable-next-line object-shorthand
+    origin: function (origin, callback) {
+        // eslint-disable-next-line no-negated-condition
         if (whitelist.indexOf(origin) !== -1) {
-            return callback(null, true);
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
         }
-        return callback(new Error('Not allowed by CORS'));
     }
 };
 
