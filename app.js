@@ -1,4 +1,8 @@
-require('dotenv-json')();
+
+if (process.NODE_ENV !== 'production') {
+    // eslint-disable-next-line global-require
+    require('dotenv-json')();
+}
 const express = require('express');
 const app = express();
 
