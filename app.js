@@ -1,5 +1,5 @@
 
-if (process.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line global-require
     require('dotenv-json')();
 }
