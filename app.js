@@ -10,21 +10,19 @@ const cors = require('cors');
 const whitelist = ['https://brikcs.netlify.app'];
 
 const corsOptions = {
-    // eslint-disable-next-line object-shorthand
-    origin: function (origin, callback) {
-        // eslint-disable-next-line no-negated-condition
+
+    origin (origin, callback) {
         if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
+            return callback(null, true);
+        } 
+        return callback(new Error('Not allowed by CORS'));
     }
 };
 
 
 app.use(express.json());
-app.use(cors());
-// app.use(cors(corsOptions));
+// app.use(cors());
+app.use(cors(corsOptions));
 
 const router = require('./src/routes');
 
