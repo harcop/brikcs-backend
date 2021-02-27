@@ -62,8 +62,6 @@ module.exports = class Challenge {
                 const syntaxErr = await syntaxError(fileName);
                 if (syntaxErr) {
                     console.log(syntaxErr);
-                    fs.unlink(_fileNamePathSyntax);
-                    fs.unlink(fileNamePathCodeToPrinter);
                     return res.status(404).json({
                         message: 'bad',
                         response: {
@@ -120,11 +118,7 @@ module.exports = class Challenge {
                     }
                 });
 
-                fs.unlink(_fileNamePathSyntax);
-                fs.unlink(fileNamePathCodeToPrinter);
             } catch (err) {
-                fs.unlink(_fileNamePathSyntax);
-                fs.unlink(fileNamePathCodeToPrinter);
                 console.log(err, 'error here');
                 res.status(404).json({
                     message: 'bad',
@@ -134,6 +128,9 @@ module.exports = class Challenge {
                         logs: [`${err}`]
                     }
                 });
+            } finally {
+                fs.unlink(_fileNamePathSyntax);
+                fs.unlink(fileNamePathCodeToPrinter);
             }
 
         });

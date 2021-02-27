@@ -1,6 +1,7 @@
 const LevelModel = require('../../models/level'); 
+const UserLevelModel = require('../../models/userLevel'); 
 const { db } = require('../../../db');
-// const { questions } = require('../../../questions');
+const { questions } = require('../../../questions');
 
 module.exports = class Init {
     static createLevel (req, res) {
@@ -30,8 +31,10 @@ module.exports = class Init {
     }
 
     static loadLevel (req, res) {
-        db.then(() => {
-            // return LevelModel.insertMany(questions);
+        db.then(async () => {
+            await LevelModel.deleteMany({});
+            await UserLevelModel.deleteMany({});
+            return LevelModel.insertMany(questions);
         })
         .then(() => {
             res.status(200).json({
