@@ -1,0 +1,6 @@
+{
+    "MONGOOSE_CONNECTION_STRING": "YourMongoDBConnection",
+    "MONGOOSE_CONNECTION_STRING_LOC": "mongodb://127.0.0.1/brikcs",
+    "tokenSecretKey": "YourSecret",
+    "BRIKCS_SITE": "YourLocalhost" 
+  }
