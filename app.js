@@ -7,7 +7,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-const whitelist = [process.env.BRIKCS_SITE];
+const whitelist = [`${process.env.BRIKCS_SITE}`];
 
 const corsOptions = {
 
