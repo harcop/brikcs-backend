@@ -7,7 +7,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-const whitelist = ['https://brikcs.netlify.app'];
+const whitelist = [process.env.BRIKCS_SITE];
 
 const corsOptions = {
 
@@ -21,8 +21,8 @@ const corsOptions = {
 
 
 app.use(express.json());
-app.use(cors());
-// app.use(cors(corsOptions));
+// app.use(cors()); // used only for development locally
+app.use(cors(corsOptions));
 
 const router = require('./src/routes');
 
