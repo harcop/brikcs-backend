@@ -9,15 +9,15 @@ const cors = require('cors');
 
 const whitelist = ["https://brikcs.netlify.app"];
 
-const corsOptions = {
+// const corsOptions = {
 
-    origin (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-            return callback(null, true);
-        } 
-        return callback(new Error('Not allowed by CORS'));
-    }
-};
+//     origin (origin, callback) {
+//         if (whitelist.indexOf(origin) !== -1) {
+//             return callback(null, true);
+//         } 
+//         return callback(new Error('Not allowed by CORS'));
+//     }
+// };
 
 
 app.use(express.json());
