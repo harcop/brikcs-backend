@@ -1,0 +1,8 @@
+# .gitignore
+deploy.sh
+.env**
+TODO
+workflow
+node_modules
+questions**
+test**
